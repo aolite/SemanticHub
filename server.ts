@@ -1,54 +1,38 @@
+
+//IMPORTS 
+//=============================================================================
+
 import * as express from "express";
-import * as bodyParser from "body-parser"
+import * as bodyParser from "body-parser" 
 
-import * as User from "./app/datamodel/user"
+import * as users from "./app/routes/userRoutes"
+import * as userCtr from "./app/controller/userController"
 
-var app = express();
+// BASE SETUP
+// =============================================================================
+
+// call the packages we need
+var app        = express();                 // define our app using express
 var mongoose = require('mongoose');
 mongoose.connect("mongodb://localhost:32774/minervahub");
 
+// configure app to use bodyParser()
+// this will let us get the data from a POST
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
 
-/* Create */
-app.post('/api/user', function (req, res) {
-    var newUser = new User(req.body);
-    newUser.save((err)=>{
-        if (err){
-            res.json({info: 'error during User create', error: err});
-        }
-        res.json({info: 'User saved successfully', data: newUser}); 
-    });
-});
-
-/* Read all */
-app.get('/api/user', function (req, res) {
-    User.find((err, Users) => {
-        if (err) {
-            res.json({info: 'error during find Users', error: err});
-        };
-        res.json({info: 'Users found successfully', data: Users});
-    });
-});
-
-/* Find one */
-app.get('/api/user/:name', function (req, res) {
-    var query = { name: req.params.name};
-    User.findOne(query, function(err, User) {
-        if (err) {
-            res.json({info: 'error during find User', error: err});
-        };
-        if (User) {
-            res.json({info: 'User found successfully', data: User});
-        } else {
-            res.json({info: 'User not found with name:'+ req.params.name});
-        }
-    });
-});
+var port = process.env.PORT || 8080;        // set our port
 
 
-var server = app.listen(3000, function () {
-    console.log('Server listening on port 3000');
-});
+// more routes for our API will happen here
+
+// REGISTER OUR ROUTES -------------------------------
+// all of our routes will be prefixed with /api
+
+app.use('/api', users.router);
+
+
+// START THE SERVER
+// =============================================================================
+app.listen(port);
+console.log('Magic happens on port ' + port);
