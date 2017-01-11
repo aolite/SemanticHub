@@ -1,0 +1,17 @@
+{
+  "name": "minervahub",
+  "version": "1.0.0",
+  "description": "Minerva Hub reactive server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start":"tsc && node ./server.js"
+  },
+  "author": "Aitor Corchero Rodriguez",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "mongoose": "^4.7.6"
+  }
+}
