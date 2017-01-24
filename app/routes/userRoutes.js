@@ -2,6 +2,7 @@
 var express = require("express");
 var userCtr = require("../controller/userController");
 var streamCtr = require("../controller/streamController");
+var semWeb = require("../controller/semwebController");
 // ROUTES FOR OUR API
 // =============================================================================
 exports.router = express.Router();
@@ -14,4 +15,6 @@ exports.router.route("/user/:name").get(userCtr.readUserByName);
 exports.router.route("/user/:name").delete(userCtr.removeUserByName);
 /**  SERVICE STREAM**/
 exports.router.route("/stream").get(streamCtr.getReactiveStream);
+/** SEMANTIC STREAM */
+exports.router.route("/semweb").get(semWeb.getSemWeb);
 //# sourceMappingURL=userRoutes.js.map

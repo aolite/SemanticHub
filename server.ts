@@ -14,7 +14,7 @@ import * as userCtr from "./app/controller/userController"
 // call the packages we need
 var app        = express();                 // define our app using express
 var mongoose = require('mongoose');
-mongoose.connect("mongodb://localhost:32774/minervahub");
+mongoose.connect("mongodb://localhost:32768/minervahub");
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST

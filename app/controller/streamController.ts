@@ -7,7 +7,7 @@ var source = Rx.Observable.interval(1000).take(9)
 var stream = new Rx.Subject();
 
 export function getReactiveStream(req,res){
-    res.setHeader("content-type", "text/plain");
+    res.setHeader("content-type", "text/plaincl");
      source.subscribe(
         function (x) {
             console.log('Next:'+x);

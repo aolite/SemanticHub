@@ -1,6 +1,7 @@
 import * as express from "express"
 import * as userCtr from "../controller/userController"
 import * as streamCtr from "../controller/streamController"
+import * as semWeb from "../controller/semwebController"
 
 // ROUTES FOR OUR API
 // =============================================================================
@@ -18,3 +19,7 @@ router.route("/user/:name").delete(userCtr.removeUserByName);
 
 /**  SERVICE STREAM**/
 router.route("/stream").get(streamCtr.getReactiveStream);
+
+
+/** SEMANTIC STREAM */
+router.route("/semweb").get(semWeb.getSemWeb);
