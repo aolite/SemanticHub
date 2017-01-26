@@ -10,6 +10,8 @@ var XSD = rdf.Namespace("http://www.w3.org/2001/XMLSchema#")
 
 export function getSemWeb(req,res){
 
+    console.info ('Getting the semantic streams from the defined URLs...')
+
     var store = rdf.graph(); 
     var promises = jsonld.promises;
     var contentType='application/nquads';
@@ -38,18 +40,14 @@ export function getSemWeb(req,res){
                 //console.log (JSON.stringify(doc));
                 strStream= JSON.stringify(doc);
                 });
-            console.log("ND:"+ strStream)
+            console.info("Semantic Stream: "+ strStream+'\n');
             res.write(strStream);
             
         },
         function (err) {
-             console.log('Error:'+err);
+             console.log('Service Error caused by: \n'+err+'\n');
              res.write(JSON.stringify(err));
-        },
-        function () {
-            console.log('Completed');
-            res.end();
-    });
+        });
     
     //var nquads = store.toString().replace(/{/g,'').replace(/}/g,'');
 
