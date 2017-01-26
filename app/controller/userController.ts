@@ -15,7 +15,7 @@ export function readUsers(req,res){
         if (err) {
             res.json({info: 'error during find Users', error: err});
         };
-        res.json({info: 'Users found successfully', data: Users});
+          res.json({info: 'Users found successfully', data: Users});
     });
 }
 

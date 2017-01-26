@@ -7,6 +7,7 @@ var RDFS = rdf.Namespace("http://www.w3.org/2000/01/rdf-schema#");
 var FOAF = rdf.Namespace("http://xmlns.com/foaf/0.1/");
 var XSD = rdf.Namespace("http://www.w3.org/2001/XMLSchema#");
 function getSemWeb(req, res) {
+    console.info('Getting the semantic streams from the defined URLs...');
     var store = rdf.graph();
     var promises = jsonld.promises;
     var contentType = 'application/nquads';
@@ -31,14 +32,11 @@ function getSemWeb(req, res) {
             //console.log (JSON.stringify(doc));
             strStream = JSON.stringify(doc);
         });
-        console.log("ND:" + strStream);
+        console.info("Semantic Stream: " + strStream + '\n');
         res.write(strStream);
     }, function (err) {
-        console.log('Error:' + err);
+        console.log('Service Error caused by: \n' + err + '\n');
         res.write(JSON.stringify(err));
-    }, function () {
-        console.log('Completed');
-        res.end();
     });
     //var nquads = store.toString().replace(/{/g,'').replace(/}/g,'');
     //var promise = promises.fromRDF(nquads, {format:'application/nquads'});
