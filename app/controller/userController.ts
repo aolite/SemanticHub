@@ -21,16 +21,19 @@ export function readUsers(req,res){
 
 export function readUserByName (req,res){
     var query = {first_name: req.params.name};
-    User.findOne(query, function(err, User) {
-        if (err) {
-            res.json({info: 'error during find User', error: err});
-        };
-        if (User) {
-            res.json({info: 'User found successfully', data: User});
-        } else {
-            res.json({info: 'User not found with name:'+ req.params.name});
-        }
-    });
+    User.findOne(query)
+        .populate("dataSources")
+        .exec(function (err, person) {
+            if (err) {
+                res.json({info: 'error during find User', error: err});
+            };
+            if (person) {
+                 res.json({info: 'User found successfully', data: person});
+            } else {
+                res.json({info: 'User not found with name:'+ req.params.name});
+            }
+            console.log(person);
+        })
 }
 
 export function removeUserByName (req,res){

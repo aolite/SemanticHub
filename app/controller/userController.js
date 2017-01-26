@@ -22,17 +22,20 @@ function readUsers(req, res) {
 exports.readUsers = readUsers;
 function readUserByName(req, res) {
     var query = { first_name: req.params.name };
-    User.findOne(query, function (err, User) {
+    User.findOne(query)
+        .populate("dataSources")
+        .exec(function (err, person) {
         if (err) {
             res.json({ info: 'error during find User', error: err });
         }
         ;
-        if (User) {
-            res.json({ info: 'User found successfully', data: User });
+        if (person) {
+            res.json({ info: 'User found successfully', data: person });
         }
         else {
             res.json({ info: 'User not found with name:' + req.params.name });
         }
+        console.log(person);
     });
 }
 exports.readUserByName = readUserByName;

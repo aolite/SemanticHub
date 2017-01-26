@@ -1,11 +1,11 @@
 "use strict";
 var mongoose = require("mongoose");
-var Schema = mongoose.Schema;
+var Schema = mongoose.Schema, ObjectId = Schema.Types.ObjectId;
 var userSchema = new mongoose.Schema({
-    _username: String,
     first_name: String,
     last_name: String,
     email: String,
+    username: String,
     password: String,
     dataSources: [{ type: mongoose.Schema.Types.ObjectId, ref: 'DataSource' }]
 });

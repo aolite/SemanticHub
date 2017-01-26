@@ -1,22 +1,18 @@
 import * as mongoose from "mongoose";
+import * as DataSource from "./datasource"
 
-interface IUser{
-    first_name:string;
-    last_name:string;
-    email:string;
-    username: string;
-    password: string;
-}
+var Schema = mongoose.Schema,
+    ObjectId = Schema.Types.ObjectId;
 
-interface IUserModel extends IUser, mongoose.Document{};
 var userSchema = new mongoose.Schema({
     first_name: String,
     last_name: String,
     email: String,
     username: String,
-    password: String
+    password: String, 
+    dataSources:[{ type: mongoose.Schema.Types.ObjectId, ref: 'DataSource' }]
 });
 
-var User = mongoose.model<IUserModel>("User", userSchema);
+var User = mongoose.model("User", userSchema);
 
-export = User;
+export =User;
