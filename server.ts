@@ -19,7 +19,9 @@ console.log ('***********************************\n')
 // call the packages we need
 var app        = express();                 // define our app using express
 var mongoose = require('mongoose');
+
 mongoose.Promise = require('bluebird');
+
 try{
     mongoose.connect("mongodb://localhost:32768/minervahub\n");
 }
