@@ -20,13 +20,12 @@ console.log ('***********************************\n')
 // call the packages we need
 var app        = express();                 // define our app using express
 var mongoose = require('mongoose');
-let config: Config = require('./appConfig.json');
+let config: Config = require('./appConfig.json'); //Configurration file for the applicaiton
 
 mongoose.Promise = require('bluebird');
 
 try{
-    //mongoose.connect("mongodb://192.168.99.100:32768/semrepo\n");
-    mongoose.connect("mongodb://"+config.bdUriPath+":"+config.port+"/"+config.bdName+"\n");
+    mongoose.connect("mongodb://"+config.bbddSettings.bdUriPath+":"+config.bbddSettings.port+"/"+config.bbddSettings.bdName+"\n");
 }
 catch (exceptionDB){
     console.error('Mongo DB cannot be initialized.\n');
@@ -41,7 +40,7 @@ console.info('MongoDB has been initialized succesfully\n');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-var port = process.env.PORT || 8080;        // set our port
+var port = process.env.PORT || config.appPort;        // set our port
 
 console.info('Setting up the server configuration...\n')
 
@@ -55,6 +54,6 @@ app.use('/api', users.router);
 
 // START THE SERVER
 // =============================================================================
-app.listen(port);
+app.listen(port,config.hostname);
 console.info('Semantic Hub is avaliable in the following route:\n');
-console.info('\t http://localhost:'+port+'/ \n');
+console.info('\t http://'+config.hostname+':'+port+'/ \n');
