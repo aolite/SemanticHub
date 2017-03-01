@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var Rx = require("rx");
 var source = Rx.Observable.interval(1000).take(9)
     .map(function (i) { return ['1', '1', 'foo', '2', '3', '5', 'bar', '8', '13'][i]; });

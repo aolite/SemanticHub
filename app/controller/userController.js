@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var User = require("../datamodel/user");
 function createUser(req, res) {
     var newUser = new User(req.body);

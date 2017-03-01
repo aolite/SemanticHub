@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var DataSouce = require("../datamodel/datasource");
 var User = require("../datamodel/user");
 function createDataModel(req, res) {

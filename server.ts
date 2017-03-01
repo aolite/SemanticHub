@@ -7,6 +7,7 @@ import * as bodyParser from "body-parser"
 
 import * as users from "./app/routes/userRoutes"
 import * as userCtr from "./app/controller/userController"
+import {Config} from "./app/config"
 
 console.log ('***********************************');
 console.log ('**    WELCOME TO SEMANTIC HUB    **');
@@ -19,11 +20,13 @@ console.log ('***********************************\n')
 // call the packages we need
 var app        = express();                 // define our app using express
 var mongoose = require('mongoose');
+let config: Config = require('./appConfig.json');
 
 mongoose.Promise = require('bluebird');
 
 try{
-    mongoose.connect("mongodb://localhost:32768/minervahub\n");
+    //mongoose.connect("mongodb://192.168.99.100:32768/semrepo\n");
+    mongoose.connect("mongodb://"+config.bdUriPath+":"+config.port+"/"+config.bdName+"\n");
 }
 catch (exceptionDB){
     console.error('Mongo DB cannot be initialized.\n');

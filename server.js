@@ -1,6 +1,7 @@
 //IMPORTS 
 //=============================================================================
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var express = require("express");
 var bodyParser = require("body-parser");
 var users = require("./app/routes/userRoutes");
@@ -13,9 +14,11 @@ console.log('***********************************\n');
 // call the packages we need
 var app = express(); // define our app using express
 var mongoose = require('mongoose');
+var config = require('./appConfig.json');
 mongoose.Promise = require('bluebird');
 try {
-    mongoose.connect("mongodb://localhost:32768/minervahub\n");
+    //mongoose.connect("mongodb://192.168.99.100:32768/semrepo\n");
+    mongoose.connect("mongodb://" + config.bdUriPath + ":" + config.port + "/" + config.bdName + "\n");
 }
 catch (exceptionDB) {
     console.error('Mongo DB cannot be initialized.\n');

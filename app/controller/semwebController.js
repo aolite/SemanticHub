@@ -1,10 +1,12 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var rdf = require("rdflib");
 var jsonld = require("jsonld");
 var Rx = require("rx");
 var RDF = rdf.Namespace("http://www.w3.org/1999/02/22-rdf-syntax-ns#");
 var RDFS = rdf.Namespace("http://www.w3.org/2000/01/rdf-schema#");
 var FOAF = rdf.Namespace("http://xmlns.com/foaf/0.1/");
+var SSN = rdf.Namespace("http://purl.oclc.org/NET/ssnx/ssn#");
 var XSD = rdf.Namespace("http://www.w3.org/2001/XMLSchema#");
 function getSemWeb(req, res) {
     console.info('Getting the semantic streams from the defined URLs...');
@@ -12,7 +14,7 @@ function getSemWeb(req, res) {
     var promises = jsonld.promises;
     var contentType = 'application/nquads';
     var baseUrl = "http://IoFTriples.com";
-    var me = rdf.sym('https://www.w3.org/People/Berners-Lee/card#i');
+    var sensor = rdf.sym(baseUrl + '#HumiditySensor');
     var knows = FOAF('knows');
     var promise;
     var strStream = "";
@@ -21,8 +23,8 @@ function getSemWeb(req, res) {
         .timeInterval()
         .map(function (x) {
         store = rdf.graph();
-        store.add(me, FOAF('knows'), rdf.sym('https://fred.me/profile#me'));
-        store.add(me, FOAF('name'), "Albert Bloggs" + x.value);
+        store.add(sensor, SSN('hasDate'), rdf.lit('2017-02-25T' + x.value + ':00:00+00:00', '', XSD('dateTime')));
+        store.add(sensor, SSN('hasValue'), rdf.lit((Math.random() * 10) + 50, '', XSD('double')));
         return store.toString().replace(/{/g, '').replace(/}/g, '');
     })
         .take(30)
