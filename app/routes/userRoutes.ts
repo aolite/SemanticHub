@@ -1,6 +1,6 @@
 import * as express from "express"
 import * as userCtr from "../controller/userController"
-import * as datasourceCtr from "../controller/datasourceController"
+import * as datasetCtr from "../controller/datasetController"
 import * as streamCtr from "../controller/streamController"
 import * as semWeb from "../controller/semwebController"
 
@@ -20,8 +20,11 @@ router.route("/user/:name").put(userCtr.updateUser);
 router.route("/user/:name").delete(userCtr.removeUserByName);
 router.route("/user").delete(userCtr.removeAllUsers);
 
-/** SERVICES FOR DATA SURCES */
-router.route("/datasource/:username").post(datasourceCtr.createDataModel);
+/** SERVICES FOR DATASETS **/
+router.route ("/dataset/:username").post(datasetCtr.createDataset);
+
+/** SERVICES FOR DATA SOURCES */
+//router.route("/dataset/:username").post(datasourceCtr.createDataModel);
 
 
 /**  SERVICE STREAM**/

@@ -1,8 +1,7 @@
 import * as mongoose from "mongoose";
-import * as DataSource from "./datasource"
+import * as Dataset from "./dataset"
 
-var Schema = mongoose.Schema,
-    ObjectId = Schema.Types.ObjectId;
+var Schema = mongoose.Schema;
 
 var userSchema = new mongoose.Schema({
     first_name: String,
@@ -10,7 +9,7 @@ var userSchema = new mongoose.Schema({
     email: String,
     username: String,
     password: String, 
-    dataSources:[{ type: mongoose.Schema.Types.ObjectId, ref: 'DataSource' }]
+    datasets:[{ type: mongoose.Schema.Types.ObjectId, ref: 'Dataset' }]
 });
 
 var User = mongoose.model("User", userSchema);

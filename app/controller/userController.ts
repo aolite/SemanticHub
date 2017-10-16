@@ -22,7 +22,7 @@ export function readUsers(req,res){
 export function readUserByName (req,res){
     var query = {first_name: req.params.name};
     User.findOne(query)
-        .populate("dataSources")
+        .populate("datasets")
         .exec(function (err, person) {
             if (err) {
                 res.json({info: 'error during find User', error: err});
@@ -39,7 +39,7 @@ export function readUserByName (req,res){
 export function updateUser (req,res){
     var query={first_name: req.params.name};
     User.findOne(query)
-        .populate("dataSources")
+        .populate("datasets")
         .exec(function (err, person) {
             if (person) {
                 var modifiedUser = new User(req.body);

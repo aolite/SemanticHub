@@ -2,7 +2,7 @@
     "appPort": 3000,
     "hostname": "localhost",
     "bbddSettings": {
-        "bdUriPath": "192.168.99.100",
+        "bdUriPath": "localhost",
         "port": 32768,
         "bdName": "semrepo"
     }
