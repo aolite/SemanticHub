@@ -56,4 +56,4 @@ app.use('/api', users.router);
 // =============================================================================
 app.listen(port,config.hostname);
 console.info('Semantic Hub is avaliable in the following route:\n');
-console.info('\t http://'+config.hostname+':'+port+'/ \n');
+console.info('\t http://'+config.hostname+':'+port+'/api \n');

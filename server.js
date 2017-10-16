@@ -1,6 +1,6 @@
-"use strict";
 //IMPORTS 
 //=============================================================================
+"use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var express = require("express");
 var bodyParser = require("body-parser");
@@ -39,5 +39,5 @@ app.use('/api', users.router);
 // =============================================================================
 app.listen(port, config.hostname);
 console.info('Semantic Hub is avaliable in the following route:\n');
-console.info('\t http://' + config.hostname + ':' + port + '/ \n');
+console.info('\t http://' + config.hostname + ':' + port + '/api \n');
 //# sourceMappingURL=server.js.map
