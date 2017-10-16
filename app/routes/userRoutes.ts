@@ -22,6 +22,8 @@ router.route("/user").delete(userCtr.removeAllUsers);
 
 /** SERVICES FOR DATASETS **/
 router.route ("/dataset/:username").post(datasetCtr.createDataset);
+router.route ("/dataset").get(datasetCtr.getDatasets);
+router.route ("/dataset/:username").get(datasetCtr.getDatasetByUser);
 
 /** SERVICES FOR DATA SOURCES */
 //router.route("/dataset/:username").post(datasourceCtr.createDataModel);

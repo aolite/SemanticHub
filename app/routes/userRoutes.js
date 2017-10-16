@@ -19,6 +19,8 @@ exports.router.route("/user/:name").delete(userCtr.removeUserByName);
 exports.router.route("/user").delete(userCtr.removeAllUsers);
 /** SERVICES FOR DATASETS **/
 exports.router.route("/dataset/:username").post(datasetCtr.createDataset);
+exports.router.route("/dataset").get(datasetCtr.getDatasets);
+exports.router.route("/dataset/:username").get(datasetCtr.getDatasetByUser);
 /** SERVICES FOR DATA SOURCES */
 //router.route("/dataset/:username").post(datasourceCtr.createDataModel);
 /**  SERVICE STREAM**/
