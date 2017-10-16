@@ -23,6 +23,8 @@ exports.router.route("/dataset").get(datasetCtr.getDatasets);
 exports.router.route("/dataset/:username").get(datasetCtr.getDatasetByUser);
 exports.router.route("/dataset/:dataset").put(datasetCtr.updateDataset);
 exports.router.route("/dataset").delete(datasetCtr.removeAllDatasets);
+exports.router.route("/dataset/:dataset").delete(datasetCtr.removedatasetByname);
+exports.router.route("/dataset/user/:username").delete(datasetCtr.removeDatasetByUser);
 /** SERVICES FOR DATA SOURCES */
 //router.route("/dataset/:username").post(datasourceCtr.createDataModel);
 /**  SERVICE STREAM**/

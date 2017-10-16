@@ -89,3 +89,41 @@ export function removeAllDatasets (req, res){
         }
     });
 }
+
+export function removedatasetByname (req,res){
+    var query={name: req.params.dataset};
+    Dataset.findOneAndRemove(query, (err,ds) =>{
+        if (err) {
+            res.json({info: 'error during dataset removal', error: err});
+        };
+        if (User) {
+            res.json({info: 'Dataset removed successfully', data: ds});
+        } else {
+            res.json({info: 'Dataset not found with name:'+ req.params.name});
+        }
+    })
+}
+
+export function removeDatasetByUser(req,res){
+    var query={username: req.params.username};
+
+    User.findOne(query)
+        .populate("datasets")
+        .exec((err,user) =>{
+            if (user){
+                user["datasets"] =[];
+                user.save((err, user)=>{
+                    if (err){
+                        res.json({info: 'User save empty datasets error'});
+                    }
+                    if (user){
+                        res.json({info: 'User deleted datasets successfully'+ user});
+                    }
+                })
+
+            }else{
+                res.json({info: 'User deleted datasets not found'});
+            }
+        })
+
+}
