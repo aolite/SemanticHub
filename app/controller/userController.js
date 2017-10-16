@@ -77,4 +77,15 @@ function removeUserByName(req, res) {
     });
 }
 exports.removeUserByName = removeUserByName;
+function removeAllUsers(req, res) {
+    User.remove({}, function (err) {
+        if (err) {
+            res.json({ info: 'error during User removal', error: err });
+        }
+        else {
+            res.json({ info: 'successfully removed all users' });
+        }
+    });
+}
+exports.removeAllUsers = removeAllUsers;
 //# sourceMappingURL=userController.js.map

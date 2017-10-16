@@ -16,6 +16,7 @@ exports.router.route("/user").get(userCtr.readUsers);
 exports.router.route("/user/:name").get(userCtr.readUserByName);
 exports.router.route("/user/:name").put(userCtr.updateUser);
 exports.router.route("/user/:name").delete(userCtr.removeUserByName);
+exports.router.route("/user").delete(userCtr.removeAllUsers);
 /** SERVICES FOR DATA SURCES */
 exports.router.route("/datasource/:username").post(datasourceCtr.createDataModel);
 /**  SERVICE STREAM**/

@@ -68,3 +68,13 @@ export function removeUserByName (req,res){
         }
     });
 }
+
+export function removeAllUsers (req, res){
+    User.remove ({},  (err) =>{
+        if (err) {
+            res.json({info: 'error during User removal', error: err});
+        }else{
+            res.json({info: 'successfully removed all users'});
+        }
+    });
+}

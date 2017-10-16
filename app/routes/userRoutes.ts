@@ -18,6 +18,7 @@ router.route("/user").get(userCtr.readUsers);
 router.route("/user/:name").get(userCtr.readUserByName);
 router.route("/user/:name").put(userCtr.updateUser);
 router.route("/user/:name").delete(userCtr.removeUserByName);
+router.route("/user").delete(userCtr.removeAllUsers);
 
 /** SERVICES FOR DATA SURCES */
 router.route("/datasource/:username").post(datasourceCtr.createDataModel);
