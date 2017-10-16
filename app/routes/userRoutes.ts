@@ -16,8 +16,8 @@ export var router = express.Router();
 router.route("/user").post(userCtr.createUser);
 router.route("/user").get(userCtr.readUsers);
 router.route("/user/:name").get(userCtr.readUserByName);
+router.route("/user/:name").put(userCtr.updateUser);
 router.route("/user/:name").delete(userCtr.removeUserByName);
-
 
 /** SERVICES FOR DATA SURCES */
 router.route("/datasource/:username").post(datasourceCtr.createDataModel);

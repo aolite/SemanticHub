@@ -14,6 +14,7 @@ exports.router = express.Router();
 exports.router.route("/user").post(userCtr.createUser);
 exports.router.route("/user").get(userCtr.readUsers);
 exports.router.route("/user/:name").get(userCtr.readUserByName);
+exports.router.route("/user/:name").put(userCtr.updateUser);
 exports.router.route("/user/:name").delete(userCtr.removeUserByName);
 /** SERVICES FOR DATA SURCES */
 exports.router.route("/datasource/:username").post(datasourceCtr.createDataModel);

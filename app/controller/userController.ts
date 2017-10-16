@@ -36,6 +36,25 @@ export function readUserByName (req,res){
         })
 }
 
+export function updateUser (req,res){
+    var query={first_name: req.params.name};
+    User.findOne(query)
+        .populate("dataSources")
+        .exec(function (err, person) {
+            if (person) {
+                var modifiedUser = new User(req.body);
+                modifiedUser._id = person._id;
+                person.update(modifiedUser,(err)=>{
+                    if (err){
+                        res.json({info: 'error during User update', error: err});
+                    }
+                    res.json({info: 'User modified successfully', data: modifiedUser});
+                });
+            } else {
+                res.json({info: 'User not found with name:'+ req.params.name});
+            }
+        });
+}
 export function removeUserByName (req,res){
     var query={first_name: req.params.name};
     User.findOneAndRemove(req.params.name, function (err,User){

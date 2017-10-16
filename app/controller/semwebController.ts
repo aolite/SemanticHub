@@ -16,7 +16,7 @@ export function getSemWeb(req,res){
     var store = rdf.graph(); 
     var promises = jsonld.promises;
     var contentType='application/nquads';
-    var baseUrl="http://IoFTriples.com";
+    var baseUrl="http://IoTTriples.com";
 
     var sensor = rdf.sym(baseUrl+'#HumiditySensor');
     var knows = FOAF('knows')
