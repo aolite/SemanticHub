@@ -1,5 +1,5 @@
 {
-    "appPort": 8080,
+    "appPort": 3000,
     "hostname": "localhost",
     "bbddSettings": {
         "bdUriPath": "192.168.99.100",

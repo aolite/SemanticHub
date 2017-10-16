@@ -42,7 +42,7 @@ app.use(bodyParser.json());
 
 var port = process.env.PORT || config.appPort;        // set our port
 
-console.info('Setting up the server configuration...\n')
+console.info('Setting up the server configuration...\n');
 
 // more routes for our API will happen here
 
