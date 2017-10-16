@@ -58,3 +58,34 @@ export function getDatasetByUser (req,res){
             console.log(person);
         })
 }
+
+export function updateDataset (req,res){
+    var query={name: req.params.dataset};
+
+    Dataset.findOne(query)
+        .populate("datasources")
+        .exec ((error, ds) =>{
+            if (ds){
+                console.log(ds)
+                console.log(modifiedDataset);
+                var modifiedDataset = new Dataset(req.body);
+                modifiedDataset._id = ds._id;
+                ds.update(modifiedDataset, (err)=>{
+                    if (err){
+                        res.json({info: 'error during dataset update', error: err});
+                    }
+                    res.json({info: 'dataset modified successfully', data: modifiedDataset});
+                });
+            }
+        });
+}
+
+export function removeAllDatasets (req, res){
+    Dataset.remove ({},  (err) =>{
+        if (err) {
+            res.json({info: 'error during dataset removal', error: err});
+        }else{
+            res.json({info: 'successfully removed all dataset'});
+        }
+    });
+}
