@@ -1,8 +1,10 @@
 import * as express from "express"
 import * as userCtr from "../controller/userController"
 import * as datasetCtr from "../controller/datasetController"
+import * as datasourceCtr  from "../controller/datasourceController";
 import * as streamCtr from "../controller/streamController"
 import * as semWeb from "../controller/semwebController"
+
 
 // ROUTES FOR OUR API
 // =============================================================================
@@ -31,8 +33,9 @@ router.route ("/dataset/user/:username").delete(datasetCtr.removeDatasetByUser);
 
 
 /** SERVICES FOR DATA SOURCES */
-//router.route("/dataset/:username").post(datasourceCtr.createDataModel);
-
+router.route("/datasource/:dataset").post(datasourceCtr.createDataModel);
+router.route("/datasource").get(datasourceCtr.getDataModels);
+router.route("/datasource/:dataset").get(datasourceCtr.getDatasourceByDataset);
 
 /**  SERVICE STREAM**/
 router.route("/stream").get(streamCtr.getReactiveStream);

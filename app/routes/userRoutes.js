@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express = require("express");
 var userCtr = require("../controller/userController");
 var datasetCtr = require("../controller/datasetController");
+var datasourceCtr = require("../controller/datasourceController");
 var streamCtr = require("../controller/streamController");
 var semWeb = require("../controller/semwebController");
 // ROUTES FOR OUR API
@@ -26,7 +27,9 @@ exports.router.route("/dataset").delete(datasetCtr.removeAllDatasets);
 exports.router.route("/dataset/:dataset").delete(datasetCtr.removedatasetByname);
 exports.router.route("/dataset/user/:username").delete(datasetCtr.removeDatasetByUser);
 /** SERVICES FOR DATA SOURCES */
-//router.route("/dataset/:username").post(datasourceCtr.createDataModel);
+exports.router.route("/datasource/:dataset").post(datasourceCtr.createDataModel);
+exports.router.route("/datasource").get(datasourceCtr.getDataModels);
+exports.router.route("/datasource/:dataset").get(datasourceCtr.getDatasourceByDataset);
 /**  SERVICE STREAM**/
 exports.router.route("/stream").get(streamCtr.getReactiveStream);
 /** SEMANTIC STREAM */
