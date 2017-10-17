@@ -26,6 +26,7 @@ router.route("/user").delete(userCtr.removeAllUsers);
 router.route ("/dataset/:username").post(datasetCtr.createDataset);
 router.route ("/dataset").get(datasetCtr.getDatasets);
 router.route ("/dataset/:username").get(datasetCtr.getDatasetByUser);
+router.route ("/dataset/:dataset/stream").get(datasetCtr.getStreamsByDataset);
 router.route ("/dataset/:dataset").put(datasetCtr.updateDataset);
 router.route ("/dataset").delete(datasetCtr.removeAllDatasets);
 router.route ("/dataset/:dataset").delete(datasetCtr.removedatasetByname);
