@@ -1,6 +1,6 @@
+"use strict";
 //IMPORTS 
 //=============================================================================
-"use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var express = require("express");
 var bodyParser = require("body-parser");
@@ -17,7 +17,9 @@ var mongoose = require('mongoose');
 var config = require('./appConfig.json'); //Configurration file for the applicaiton
 mongoose.Promise = require('bluebird');
 try {
-    mongoose.connect("mongodb://" + config.bbddSettings.bdUriPath + ":" + config.bbddSettings.port + "/" + config.bbddSettings.bdName + "\n");
+    mongoose.connect("mongodb://" + config.bbddSettings.bdUriPath + ":" + config.bbddSettings.port + "/" + config.bbddSettings.bdName + "\n", {
+        useMongoClient: true,
+    });
 }
 catch (exceptionDB) {
     console.error('Mongo DB cannot be initialized.\n');

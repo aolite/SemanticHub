@@ -1,7 +1,7 @@
 import * as Dataset from "../datamodel/dataset"
 import User = require("../datamodel/user");
 import * as Rx from "rx";
-import * as request from "request"
+import {RxHttpRequest} from 'rx-http-request';
 
 export function createDataset (req, res){
     var newDataset= new Dataset (req.body);
@@ -73,36 +73,22 @@ export function getStreamsByDataset(req,res){
             if (ds) {
                 // https://api.github.com/users
 
-                var source1= Rx.Observable.create(function (observer) {
-                    request(ds["datasources"][0]["endpoint"], function (error, response, body) {
-                        if (error) { observer.onError(); }
-                        else { observer.onNext({response: response, body: body }); }
-                        observer.onCompleted();
-                    })
-                });
-
-                var source2 = Rx.Observable.create(function (observer) {
-                    request(ds["datasources"][1]["endpoint"], function (error, response, body) {
-                        if (error) { observer.onError(); }
-                        else { observer.onNext({response: response, body: body }); }
-                        observer.onCompleted();
-                    })
-                });
+                var source1= RxHttpRequest.get(ds["datasources"][0]["endpoint"]);
+                var source2 = RxHttpRequest.get(ds["datasources"][1]["endpoint"]);
 
                 var source = Rx.Observable.merge(
                     source1,
                     source2);
 
+                res.setHeader("content-type", "text/plaincl");
                 var subscription = source.subscribe(
                     function (data) {
-                        res.json({info: 'datasource by user found successfully', data: data});
+                        res.write(JSON.stringify({info: 'Users found successfully', data: ''+data.body}));
                     },
                     function (err) {
-                        res.json({info: 'datasource error by user found successfully'+err});
+                        res.write({info: 'Users found Error', data: ''+err});
                     });
 
-            } else {
-                res.json({info: 'datasource by user not found with name:'+ req.params.dataset});
             }
         })
 }

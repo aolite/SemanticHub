@@ -3,7 +3,7 @@ import DataSource = require("../datamodel/datasource");
 
 export function createDataModel (req,res){
     var newDataSource= new DataSource(req.body);
-    var query={username: req.params.username};
+    var query={name: req.params.dataset};
 
     console.log(query);
 

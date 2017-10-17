@@ -4,7 +4,7 @@ var Dataset = require("../datamodel/dataset");
 var DataSource = require("../datamodel/datasource");
 function createDataModel(req, res) {
     var newDataSource = new DataSource(req.body);
-    var query = { username: req.params.username };
+    var query = { name: req.params.dataset };
     console.log(query);
     newDataSource.save(function (err) {
         if (err) {

@@ -25,7 +25,10 @@ let config: Config = require('./appConfig.json'); //Configurration file for the 
 mongoose.Promise = require('bluebird');
 
 try{
-    mongoose.connect("mongodb://"+config.bbddSettings.bdUriPath+":"+config.bbddSettings.port+"/"+config.bbddSettings.bdName+"\n");
+    mongoose.connect("mongodb://"+config.bbddSettings.bdUriPath+":"+config.bbddSettings.port+"/"+config.bbddSettings.bdName+"\n",{
+        useMongoClient: true,
+        /* other options */
+    })
 }
 catch (exceptionDB){
     console.error('Mongo DB cannot be initialized.\n');
