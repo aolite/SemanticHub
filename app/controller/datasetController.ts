@@ -2,6 +2,14 @@ import * as Dataset from "../datamodel/dataset"
 import User = require("../datamodel/user");
 import * as Rx from "rx";
 import {RxHttpRequest} from 'rx-http-request';
+import * as rdf from "rdflib"
+import * as jsonld from "jsonld"
+
+var RDF = rdf.Namespace("http://www.w3.org/1999/02/22-rdf-syntax-ns#")
+var RDFS = rdf.Namespace("http://www.w3.org/2000/01/rdf-schema#")
+var SSN = rdf.Namespace("http://purl.oclc.org/NET/ssnx/ssn#")
+var QUDT = rdf.Namespace("http://qudt.org/schema/qudt#")
+var XSD = rdf.Namespace("http://www.w3.org/2001/XMLSchema#")
 
 export function createDataset (req, res){
     var newDataset= new Dataset (req.body);
@@ -71,23 +79,90 @@ export function getStreamsByDataset(req,res){
                 res.json({info: 'error during find User', error: err});
             };
             if (ds) {
-                // https://api.github.com/users
+                var store = rdf.graph();
+                var baseUrl="http://rancho_nieves.com";
 
-                var source1= RxHttpRequest.get(ds["datasources"][0]["endpoint"]);
-                var source2 = RxHttpRequest.get(ds["datasources"][1]["endpoint"]);
+                var sensorTemp = rdf.sym(baseUrl+'#TempSensor_1');
+                var sensorHum = rdf.sym(baseUrl+'#HumiditySensor_1');
 
-                var source = Rx.Observable.merge(
-                    source1,
-                    source2);
+                var strStream="";
 
-                res.setHeader("content-type", "text/plaincl");
-                var subscription = source.subscribe(
-                    function (data) {
-                        res.write(JSON.stringify({info: 'Users found successfully', data: ''+data.body}));
-                    },
-                    function (err) {
-                        res.write({info: 'Users found Error', data: ''+err});
-                    });
+
+                return Rx.Observable
+                    .interval(500 /* ms */)
+                    .timeInterval()
+                    .map (function (x){
+                        store= rdf.graph();
+                        store.add(sensorTemp, RDF("type"),rdf.sym(baseUrl+'#Temperature'));
+                        store.add(sensorTemp,SSN('hasDate'), rdf.lit('2017-10-25T'+(x.value %24)+':00:00+00:00', '', XSD('dateTime')));
+                        store.add(sensorTemp,SSN('hasValue'), rdf.lit((Math.random() *25) + 12, '', XSD('double')));
+                        store.add(sensorTemp,QUDT('hasUnit'), rdf.lit("ºC", '', XSD('string')));
+
+                        store.add(sensorHum, RDF("type"),rdf.sym(baseUrl+'#Humidity'));
+                        store.add(sensorHum,SSN('hasDate'), rdf.lit('2017-10-25T'+(x.value %24)+':00:00+00:00', '', XSD('dateTime')));
+                        store.add(sensorHum,SSN('hasValue'), rdf.lit((Math.random() *55) + 45, '', XSD('double')));
+                        store.add(sensorHum,QUDT('hasUnit'), rdf.lit("%", '', XSD('string')));
+
+                        return store;
+                        //return store.toString().replace(/{/g,'').replace(/}/g,'');
+                    })
+                    .take(30)
+                    .subscribe (
+                        function (x) {
+
+                            var sparqlQuery = 'PREFIX ssn: <http://purl.oclc.org/NET/ssnx/ssn#> \
+                       PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\
+                       PREFIX base: <http://rancho_nieves.com#>\
+                       SELECT ?sensor ?type ?date ?value \
+                       WHERE { \
+                         ?sensor a ?type .\
+                         ?sensor a base:Temperature .\
+                         ?sensor ssn:hasDate ?date .\
+                         ?sensor ssn:hasValue ?value . \
+                         filter ((xsd:int(?value) > 16.0) && (xsd:int(?value) < 22.0)) \
+                       }';
+
+                            var query = rdf.SPARQLToQuery(sparqlQuery, true, x);
+
+                            x.fetcher = null; /* disables resource fetching */
+                            // NOTE: rdflib.js will fetch all resources by default it seems
+                            // which will issue errors when a resource cannot be parsed
+
+
+                            // - execute SPARQL query and obtain result set
+                            x.query(query, function(result) {
+                                var sensor = result['?sensor'].value ;
+                                var type = result ['?type'].value;
+                                var date = result['?date'].value;
+                                var value = result['?value'].value;
+
+                                console.log(value)
+
+                                var query_store = rdf.graph();
+
+                                if (value >16 && value<22 ) {
+                                    query_store.add(rdf.sym(sensor), RDF('type'), rdf.sym(type));
+                                    query_store.add(rdf.sym(sensor), SSN('hasDate'), rdf.lit(date, '', XSD('dateTime')));
+                                    query_store.add(rdf.sym(sensor), SSN('hasValue'), rdf.lit(value, '', XSD('double')));
+
+
+                                    jsonld.fromRDF(query_store.toString().replace(/{/g, '').replace(/}/g, ''),
+                                        {}, function (err, doc) {
+                                            // doc is JSON-LD
+                                            //console.log (JSON.stringify(doc));
+                                            strStream = JSON.stringify(doc);
+
+                                        });
+                                    //console.info("Semantic Stream: "+ strStream+'\n');
+                                    res.write(strStream);
+                                }
+                            });
+
+                        },
+                        function (err) {
+                            //console.log('Service Error caused by: \n'+err+'\n');
+                            res.write(JSON.stringify(err));
+                        });
 
             }
         })

@@ -19,9 +19,7 @@ export function getSemWeb(req,res){
     var baseUrl="http://IoTTriples.com";
 
     var sensor = rdf.sym(baseUrl+'#HumiditySensor');
-    var knows = FOAF('knows')
-  
-    var promise; 
+
     var strStream="";
     var semStream = Rx.Observable
     .interval(500 /* ms */)
@@ -32,7 +30,7 @@ export function getSemWeb(req,res){
         store.add(sensor,SSN('hasValue'), rdf.lit((Math.random() *10) + 50, '', XSD('double')))
         return store.toString().replace(/{/g,'').replace(/}/g,'');
     })
-    .take(30)
+    .take(1000)
     .subscribe (
         function (x) {
             
